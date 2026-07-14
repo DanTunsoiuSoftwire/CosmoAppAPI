@@ -1,6 +1,5 @@
 using CosmoAppAPI.Services.Abstractions;
 using CosmoAppAPI.Services.Implementations;
-using CosmoAppAPI.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
