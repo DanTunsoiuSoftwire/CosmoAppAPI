@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("c3e102a1-1b9d-4892-a2bf-1f69552e2ac5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fffe1883b3cf2a601207d237696d315369a984bf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2162f534bdd4a262136a4d7552be19afb3677710")]
 [assembly: System.Reflection.AssemblyProductAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

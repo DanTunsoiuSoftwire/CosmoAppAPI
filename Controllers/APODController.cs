@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 using CosmoAppAPI.Models.ResponseObjects;
 using CosmoAppAPI.Services.Abstractions;
 
@@ -16,15 +17,28 @@ public class APODController : ControllerBase
     }
     
     [HttpGet("today")]
-    public async Task<APODResponse> Get()
+    public async Task<IActionResult> Get()
     {
         APODResponse apodResponse = await _apodServices.GetPicture();
 
         if (apodResponse.url == null!)
         {
-            this.HttpContext.Response.StatusCode = 404;
+            return NotFound("No picture found.");
         }
         
-        return apodResponse;
+        return Ok(apodResponse);
+    }
+
+    [HttpGet("photos/{date}")]
+    public async Task<IActionResult> GetPhoto([FromRoute] DateOnly date)
+    {
+        APODResponse apodResponse = await _apodServices.GetPictureByDate(date);
+        
+        if (apodResponse.url == null!)
+        {
+            return NotFound("No picture found.");
+        }
+        
+        return Ok(apodResponse);
     }
 }

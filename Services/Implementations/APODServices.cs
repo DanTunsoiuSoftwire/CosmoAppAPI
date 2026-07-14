@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using CosmoAppAPI.Models.ResponseObjects;
 using CosmoAppAPI.Services.Abstractions;
 
@@ -6,19 +7,20 @@ namespace CosmoAppAPI.Services.Implementations;
 
 public class APODServices : IAPODServices
 {
-    private readonly HttpClient _httpClient;
-
-    public APODServices()
+    private static readonly HttpClient HttpClient = new HttpClient()
     {
-        _httpClient = new HttpClient()
-        {
-            BaseAddress = new Uri("https://api.nasa.gov"),
-        };
+        BaseAddress = new Uri("https://api.nasa.gov"),
+    };
+    private readonly IConfiguration _config;
+
+    public APODServices(IConfiguration config)
+    {
+        _config = config;
     }
     
     public async Task<APODResponse> GetPicture()
     {
-        HttpResponseMessage response = await _httpClient.GetAsync("planetary/apod?api_key=t2o7TXGVL7dTDhrXbqIkce2UEfmtn7D3APzFEdDB");
+        HttpResponseMessage response = await HttpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"]);
 
         try
         {
@@ -32,5 +34,9 @@ public class APODServices : IAPODServices
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
         return JsonSerializer.Deserialize<APODResponse>(jsonResponse);
+    }
+
+    public async Task<APODResponse> GetPictureByDate(DateOnly date)
+    {
     }
 }
