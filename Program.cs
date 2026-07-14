@@ -1,3 +1,6 @@
+using CosmoAppAPI.Services.Abstractions;
+using CosmoAppAPI.Services.Implementations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.Add(new ServiceDescriptor(typeof(IAPODServices), typeof(APODServices), ServiceLifetime.Singleton));
 
 var app = builder.Build();
 
