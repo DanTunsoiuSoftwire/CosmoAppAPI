@@ -38,5 +38,21 @@ public class APODServices : IAPODServices
 
     public async Task<APODResponse> GetPictureByDate(DateOnly date)
     {
+        HttpResponseMessage response;
+
+        try
+        {
+            response = await HttpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"] +
+                                                 "&date=" + date.ToString("o",CultureInfo.InvariantCulture));
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception)
+        {
+            return new APODResponse();
+        }
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<APODResponse>(jsonResponse);
     }
 }

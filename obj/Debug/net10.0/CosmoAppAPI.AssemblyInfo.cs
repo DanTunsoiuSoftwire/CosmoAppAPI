@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2162f534bdd4a262136a4d7552be19afb3677710")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4affc90360f4d7c5b6578db31174dd171dbec2fe")]
 [assembly: System.Reflection.AssemblyProductAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CosmoAppAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
