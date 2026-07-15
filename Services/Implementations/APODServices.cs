@@ -7,20 +7,22 @@ namespace CosmoAppAPI.Services.Implementations;
 
 public class APODServices : IAPODServices
 {
-    private static readonly HttpClient HttpClient = new HttpClient()
-    {
-        BaseAddress = new Uri("https://api.nasa.gov"),
-    };
+    private static HttpClient _httpClient = null!;
     private readonly IConfiguration _config;
 
-    public APODServices(IConfiguration config)
+    public APODServices(IConfiguration config, IHttpClientFactory httpClientFactory)
     {
         _config = config;
+        if (_httpClient == null!)
+        {
+            _httpClient = httpClientFactory.CreateClient();
+            _httpClient.BaseAddress = new Uri("https://api.nasa.gov");
+        }
     }
     
     public async Task<APODResponse> GetPicture()
     {
-        HttpResponseMessage response = await HttpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"]);
+        HttpResponseMessage response = await _httpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"]);
 
         try
         {
@@ -42,7 +44,7 @@ public class APODServices : IAPODServices
 
         try
         {
-            response = await HttpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"] +
+            response = await _httpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"] +
                                                  "&date=" + date.ToString("o",CultureInfo.InvariantCulture));
             response.EnsureSuccessStatusCode();
         }
