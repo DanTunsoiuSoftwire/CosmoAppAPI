@@ -11,7 +11,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<IAPODServices, APODServices>();
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<IAPODServices, APODServices>(client => client.BaseAddress = new Uri("https://api.nasa.gov"));
 
 var app = builder.Build();
 

@@ -5,5 +5,5 @@ namespace CosmoAppAPI.Services.Abstractions;
 public interface IAPODServices
 {
     public Task<APODResponse> GetPicture();
-    public Task<APODResponse> GetPictureByDate(DateOnly date);
+    public Task<ImageResponse> GetPictureByDate(DateOnly date);
 }

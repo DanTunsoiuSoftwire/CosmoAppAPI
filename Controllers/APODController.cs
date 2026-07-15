@@ -32,13 +32,13 @@ public class APODController : ControllerBase
     [HttpGet("photos/{date}")]
     public async Task<IActionResult> GetPhoto([FromRoute] DateOnly date)
     {
-        APODResponse apodResponse = await _apodServices.GetPictureByDate(date);
+        ImageResponse imageResponse = await _apodServices.GetPictureByDate(date);
         
-        if (apodResponse.url == null!)
+        if (imageResponse.Url == null!)
         {
             return NotFound("No picture found.");
         }
         
-        return Ok(apodResponse);
+        return Ok(imageResponse);
     }
 }

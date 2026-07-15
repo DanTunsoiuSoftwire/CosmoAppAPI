@@ -10,22 +10,22 @@ public class APODServices : IAPODServices
     private static HttpClient _httpClient = null!;
     private readonly IConfiguration _config;
 
-    public APODServices(IConfiguration config, IHttpClientFactory httpClientFactory)
+    public APODServices(IConfiguration config, HttpClient httpClient)
     {
         _config = config;
         if (_httpClient == null!)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("https://api.nasa.gov");
+            _httpClient = httpClient;
         }
     }
     
     public async Task<APODResponse> GetPicture()
     {
-        HttpResponseMessage response = await _httpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"]);
+        HttpResponseMessage response;
 
         try
         {
+            response = await _httpClient.GetAsync("planetary/apod?api_key=" + _config["NASA:ServiceApiKey"]);
             response.EnsureSuccessStatusCode();
         }
         catch (Exception)
@@ -35,10 +35,10 @@ public class APODServices : IAPODServices
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
-        return JsonSerializer.Deserialize<APODResponse>(jsonResponse);
+        return JsonSerializer.Deserialize<APODResponse>(jsonResponse)!;
     }
 
-    public async Task<APODResponse> GetPictureByDate(DateOnly date)
+    public async Task<ImageResponse> GetPictureByDate(DateOnly date)
     {
         HttpResponseMessage response;
 
@@ -50,11 +50,15 @@ public class APODServices : IAPODServices
         }
         catch (Exception)
         {
-            return new APODResponse();
+            return new ImageResponse();
         }
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
-        return JsonSerializer.Deserialize<APODResponse>(jsonResponse);
+        APODResponse apodResponse = JsonSerializer.Deserialize<APODResponse>(jsonResponse)!;
+        ImageResponse imageResponse = new ImageResponse();
+        imageResponse.Url = apodResponse.url;
+        imageResponse.Title = apodResponse.title;
+        return imageResponse;
     }
 }
